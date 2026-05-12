@@ -16,6 +16,8 @@ The project is live at: [https://range-eta.vercel.app](https://range-eta.vercel.
 - **Modular Architecture**: Clean separation between logic (hooks) and presentation (components).
 - **Fully Documented**: JSDoc comments with examples for better IntelliSense support in VS Code.
 - **Tested**: Comprehensive test suite for both units and integration.
+- **CI/CD**: Automatic test execution on every push via GitHub Actions.
+- **Auto-Deployment**: Seamless production deployment with Vercel.
 
 ## 🏗️ Architecture
 
@@ -65,6 +67,11 @@ To run the test suite:
 ```bash
 npm test
 ```
+
+## 🔄 CI/CD & Deployment
+
+- **GitHub Actions**: A CI pipeline is configured to automatically run all tests on every `push` or `pull_request` to the `main` or `master` branches.
+- **Vercel**: The project is integrated with Vercel for continuous deployment. Every successful merge into the main branch triggers an automatic build and deployment to the production environment.
 
 ## 🛠️ Development
 
