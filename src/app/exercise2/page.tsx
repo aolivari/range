@@ -15,7 +15,10 @@ export default function Exercise2() {
     getFixedRange()
       .then((res) => {
         setData(res);
-        setSelection({ min: res.values[0], max: res.values[res.values.length - 1] });
+        setSelection({
+          min: res.values[0],
+          max: res.values[res.values.length - 1],
+        });
         setLoading(false);
       })
       .catch((err) => {
@@ -32,7 +35,13 @@ export default function Exercise2() {
       ) : (
         <>
           <p>Fixed Values Selection (Currency Snapping)</p>
-          <div style={{ maxWidth: "500px", margin: "40px auto", textAlign: "center" }}>
+          <div
+            style={{
+              maxWidth: "500px",
+              margin: "40px auto",
+              textAlign: "center",
+            }}
+          >
             {data && (
               <Range
                 type="fixed"
@@ -42,9 +51,6 @@ export default function Exercise2() {
                 onChange={(min, max) => setSelection({ min, max })}
               />
             )}
-            <div style={{ marginTop: "20px", color: "#666", fontSize: "14px" }} data-testid="selection-result">
-              Selection: {selection.min.toFixed(2)}€ - {selection.max.toFixed(2)}€
-            </div>
           </div>
         </>
       )}

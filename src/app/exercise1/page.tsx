@@ -32,18 +32,21 @@ export default function Exercise1() {
       ) : (
         <>
           <p>Normal Range Selection</p>
-          <div style={{ maxWidth: "500px", margin: "40px auto", textAlign: "center" }}>
+          <div
+            style={{
+              maxWidth: "500px",
+              margin: "40px auto",
+              textAlign: "center",
+            }}
+          >
             {data && (
-              <Range 
-                type="normal" 
-                min={data.min} 
-                max={data.max} 
+              <Range
+                type="normal"
+                min={data.min}
+                max={data.max}
                 onChange={(min, max) => setSelection({ min, max })}
               />
             )}
-            <div style={{ marginTop: "20px", color: "#666", fontSize: "14px" }} data-testid="selection-result">
-              Selection: {selection.min.toFixed(2)}€ - {selection.max.toFixed(2)}€
-            </div>
           </div>
         </>
       )}
