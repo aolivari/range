@@ -71,11 +71,30 @@ const Range: React.FC<RangeProps> = ({
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
-      const newValue = getValueFromPosition(e.clientX);
+      let newValue = getValueFromPosition(e.clientX);
+
       if (isDragging === "min") {
-        setMinVal(Math.min(newValue, maxVal));
+        if (type === "fixed") {
+          // En modo fixed, buscamos la opción más alta que sea menor que el máximo actual
+          const possibleOptions = options.filter(opt => opt < maxVal);
+          if (possibleOptions.length > 0) {
+            const safeMax = Math.max(...possibleOptions);
+            setMinVal(Math.min(newValue, safeMax));
+          }
+        } else {
+          setMinVal(Math.min(newValue, maxVal - 0.01));
+        }
       } else {
-        setMaxVal(Math.max(newValue, minVal));
+        if (type === "fixed") {
+          // En modo fixed, buscamos la opción más baja que sea mayor que el mínimo actual
+          const possibleOptions = options.filter(opt => opt > minVal);
+          if (possibleOptions.length > 0) {
+            const safeMin = Math.min(...possibleOptions);
+            setMaxVal(Math.max(newValue, safeMin));
+          }
+        } else {
+          setMaxVal(Math.max(newValue, minVal + 0.01));
+        }
       }
     };
     const handleMouseUp = () => setIsDragging(null);

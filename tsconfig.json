@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2015",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "sourceMap": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,17 +14,25 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "baseUrl": "./",
     "paths": {
-      "ui/*": ["./src/ui/*"],
-      "services/*": ["./src/services/*"],
-      "__mocks__/*": ["./src/__mocks__/*"],
-      "@/*": ["./src/*"]
+      "ui/*": [
+        "./src/ui/*"
+      ],
+      "services/*": [
+        "./src/services/*"
+      ],
+      "__mocks__/*": [
+        "./src/__mocks__/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
     },
     "plugins": [
       {
@@ -28,7 +40,14 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
-
