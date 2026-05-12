@@ -30,6 +30,10 @@ describe("Range Component", () => {
     } as any));
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   test("renders correctly in normal mode with decimals", () => {
     render(<TestRange type="normal" min={10} max={50} />);
     const minInput = screen.getByTestId("min-input") as HTMLInputElement;
