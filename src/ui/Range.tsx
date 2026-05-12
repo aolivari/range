@@ -28,6 +28,7 @@ const Range: React.FC<RangeProps> = ({
     minInput,
     maxInput,
     setIsDragging,
+    isDragging,
     trackRef,
     getPercent,
     handleInputChange,
@@ -64,6 +65,7 @@ const Range: React.FC<RangeProps> = ({
         trackRef={trackRef}
         getPercent={getPercent}
         setIsDragging={setIsDragging}
+        isDragging={isDragging}
       />
 
       {type === "normal" ? (

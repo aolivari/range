@@ -7,6 +7,7 @@ interface SliderProps {
   trackRef: React.RefObject<HTMLDivElement | null>;
   getPercent: (value: number) => number;
   setIsDragging: (dragging: "min" | "max" | null) => void;
+  isDragging: "min" | "max" | null;
 }
 
 const Slider: React.FC<SliderProps> = ({ 
@@ -14,10 +15,11 @@ const Slider: React.FC<SliderProps> = ({
   maxVal, 
   trackRef, 
   getPercent, 
-  setIsDragging 
+  setIsDragging,
+  isDragging
 }) => {
   return (
-    <div className={styles.slider} ref={trackRef}>
+    <div className={`${styles.slider} ${isDragging ? styles.draggingMode : ""}`} ref={trackRef}>
       <div 
         className={styles.progress} 
         style={{ 
@@ -27,15 +29,17 @@ const Slider: React.FC<SliderProps> = ({
         data-testid="progress-bar"
       />
       <div 
-        className={styles.handle} 
+        className={`${styles.handle} ${isDragging === "min" ? styles.grabbing : ""}`} 
         style={{ left: `${getPercent(minVal)}%` }} 
         onMouseDown={() => setIsDragging("min")}
+        onTouchStart={() => setIsDragging("min")}
         data-testid="min-handle"
       />
       <div 
-        className={styles.handle} 
+        className={`${styles.handle} ${isDragging === "max" ? styles.grabbing : ""}`} 
         style={{ left: `${getPercent(maxVal)}%` }} 
         onMouseDown={() => setIsDragging("max")}
+        onTouchStart={() => setIsDragging("max")}
         data-testid="max-handle"
       />
     </div>

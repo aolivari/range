@@ -64,7 +64,17 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       let newValue = getValueFromPosition(e.clientX);
+      updateValues(newValue);
+    };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      if (e.cancelable) e.preventDefault();
+      let newValue = getValueFromPosition(e.touches[0].clientX);
+      updateValues(newValue);
+    };
+
+    const updateValues = (newValue: number) => {
       if (isDragging === "min") {
         if (type === "fixed") {
           const possibleOptions = options.filter(opt => opt < maxVal);
@@ -87,14 +97,20 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
         }
       }
     };
-    const handleMouseUp = () => setIsDragging(null);
+
+    const handleEnd = () => setIsDragging(null);
+
     if (isDragging) {
       window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener("mouseup", handleEnd);
+      window.addEventListener("touchmove", handleTouchMove, { passive: false });
+      window.addEventListener("touchend", handleEnd);
     }
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging, minVal, maxVal, absMin, absMax, type, options]);
 

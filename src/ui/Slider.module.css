@@ -6,6 +6,7 @@
   border-radius: 2px;
   min-width: 150px;
   margin: 0 10px;
+  touch-action: none;
 }
 
 .progress {
@@ -32,6 +33,12 @@
   transform: translate(-50%, -50%) scale(1.2);
 }
 
-.handle:active {
+.handle:active,
+.handle.grabbing {
   transform: translate(-50%, -50%) scale(1.1);
+  cursor: grabbing;
+}
+
+.draggingMode {
+  cursor: grabbing;
 }
