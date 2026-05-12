@@ -1,7 +1,12 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Slider from "./Slider";
+
+afterEach(() => {
+  cleanup();
+  jest.restoreAllMocks();
+});
 
 describe("Slider Component", () => {
   const mockGetPercent = (val: number) => val;

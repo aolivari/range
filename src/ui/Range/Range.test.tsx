@@ -1,7 +1,12 @@
-import { describe, test, expect, jest, beforeEach } from '@jest/globals';
+import { describe, test, expect, jest, beforeEach, afterEach } from '@jest/globals';
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import Range from "./Range";
+
+afterEach(() => {
+  cleanup();
+  jest.restoreAllMocks();
+});
 
 const TestRange: React.FC<any> = (props) => {
   const [selection, setSelection] = React.useState({ min: props.min || 0, max: props.max || 100 });
@@ -31,6 +36,7 @@ describe("Range Component", () => {
   });
 
   afterEach(() => {
+    cleanup();
     jest.restoreAllMocks();
   });
 
@@ -116,5 +122,55 @@ describe("Range Component", () => {
     // Como el mínimo está en 1.99, el máximo se queda en la siguiente opción disponible (10.99)
     expect(result.textContent).toContain("1.99€ - 10.99€");
     fireEvent.mouseUp(window);
+  });
+
+  test("works with touch events", async () => {
+    render(<TestRange type="normal" min={0} max={100} />);
+    const minHandle = screen.getByTestId("min-handle");
+    const result = screen.getByTestId("selection-result");
+
+    fireEvent.touchStart(minHandle, { touches: [{ clientX: 0 }] });
+    await act(async () => {
+      // Simulamos movimiento táctil hasta el 50%
+      fireEvent.touchMove(window, { touches: [{ clientX: 50 }] });
+    });
+    
+    expect(result.textContent).toContain("50.00€");
+    fireEvent.touchEnd(window);
+  });
+
+  test("handles negative ranges correctly", () => {
+    render(<TestRange type="normal" min={-100} max={100} />);
+    const minInput = screen.getByTestId("min-input") as HTMLInputElement;
+    const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
+    const progressBar = screen.getByTestId("progress-bar");
+
+    expect(minInput.value).toBe("-100.00");
+    expect(maxInput.value).toBe("100.00");
+
+    // En un rango de -100 a 100 (total 200), el 0€ debería estar en el 50%
+    fireEvent.change(minInput, { target: { value: "0" } });
+    fireEvent.blur(minInput);
+    
+    expect(progressBar.style.left).toBe("50%");
+  });
+
+  test("sanitizes invalid input characters", () => {
+    render(<TestRange type="normal" min={50} max={100} />);
+    const minInput = screen.getByTestId("min-input") as HTMLInputElement;
+    
+    // El valor inicial es 50.00
+    // Intentamos meter texto no numérico
+    fireEvent.change(minInput, { target: { value: "abc" } });
+    fireEvent.blur(minInput);
+    
+    // Al ser NaN, debe haber restaurado el valor anterior (50.00)
+    expect(minInput.value).toBe("50.00");
+  });
+
+  test("handles empty options in fixed mode gracefully", () => {
+    // Si no hay opciones, debería al menos renderizar sin romper el hilo de ejecución
+    const { container } = render(<TestRange type="fixed" options={[]} />);
+    expect(container).toBeTruthy();
   });
 });

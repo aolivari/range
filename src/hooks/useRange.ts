@@ -11,8 +11,8 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
   const [absMin] = useState(min);
   const [absMax] = useState(max);
   
-  const [minVal, setMinVal] = useState(type === "fixed" ? options[0] : min);
-  const [maxVal, setMaxVal] = useState(type === "fixed" ? options[options.length - 1] : max);
+  const [minVal, setMinVal] = useState(type === "fixed" ? (options[0] ?? min) : min);
+  const [maxVal, setMaxVal] = useState(type === "fixed" ? (options[options.length - 1] ?? max) : max);
   
   const [minInput, setMinInput] = useState(minVal.toFixed(2));
   const [maxInput, setMaxInput] = useState(maxVal.toFixed(2));

@@ -1,6 +1,11 @@
 import { describe, test, expect, jest } from "@jest/globals";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CurrencyInput from "./CurrencyInput";
+
+afterEach(() => {
+  cleanup();
+  jest.restoreAllMocks();
+});
 
 describe("CurrencyInput Component", () => {
   test("renders correctly with value and symbol", () => {
