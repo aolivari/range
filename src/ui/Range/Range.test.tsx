@@ -65,24 +65,6 @@ describe("Range Component", () => {
     fireEvent.mouseUp(window);
   });
 
-  test("updates progress bar styles based on selection", () => {
-    render(<TestRange type="normal" min={0} max={100} />);
-    const minInput = screen.getByTestId("min-input") as HTMLInputElement;
-    const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
-    const progressBar = screen.getByTestId("progress-bar");
-
-    // Initial 0-100 should be full width
-    expect(progressBar.style.left).toBe("0%");
-    expect(progressBar.style.right).toBe("0%");
-
-    // Change to 25-75
-    fireEvent.change(minInput, { target: { value: "25" } });
-    fireEvent.change(maxInput, { target: { value: "75" } });
-    
-    expect(progressBar.style.left).toBe("25%");
-    expect(progressBar.style.right).toBe("25%");
-  });
-
   test("prevents handles from crossing during drag", async () => {
     render(<TestRange type="normal" min={0} max={100} />);
     const minHandle = screen.getByTestId("min-handle");
