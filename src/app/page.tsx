@@ -1,8 +1,8 @@
 export default function Home() {
   return (
     <main>
-      <h1>Clean Project Structure</h1>
-      <p>Manual setup: Next.js + TypeScript.</p>
+      <h1>Ejercicio de Mango</h1>
+      <p>Creación componente Range</p>
     </main>
   );
 }
