@@ -15,9 +15,9 @@ const Range: React.FC<RangeProps> = ({ isFixed = false }) => {
       }}
     >
       {isFixed ? (
-        <p>Soy un range con valores fijos</p>
+        <p>I am a fixed values range</p>
       ) : (
-        <p>Soy un range normal</p>
+        <p>I am a normal range</p>
       )}
     </div>
   );
