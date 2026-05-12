@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Range from "@/components/Range";
-import { getNormalRange, NormalRangeResponse } from "@/services/api";
+import Range from "ui/Range";
+import { getNormalRange, NormalRangeResponse } from "services/api";
 
 export default function Exercise1() {
   const [data, setData] = useState<NormalRangeResponse | null>(null);
@@ -23,19 +23,17 @@ export default function Exercise1() {
 
   return (
     <main>
-      <h1>Exercise 1</h1>
-      
+      <h1>Normal Range</h1>
       {loading ? (
         <p>Loading range data...</p>
       ) : (
         <>
-          <p>Range from {data?.min} to {data?.max}</p>
-          <Range />
+          <p>Normal Range Selection</p>
+          {data && <Range type="normal" min={data.min} max={data.max} />}
         </>
       )}
-      
       <div style={{ marginTop: "2rem" }}>
-        <Link href="/">Back to Home</Link>
+        <Link href="/">Back to Examples</Link>
       </div>
     </main>
   );

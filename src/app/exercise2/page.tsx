@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Range from "@/components/Range";
-import { getFixedRange, FixedRangeResponse } from "@/services/api";
+import Range from "ui/Range";
+import { getFixedRange, FixedRangeResponse } from "services/api";
 
 export default function Exercise2() {
   const [data, setData] = useState<FixedRangeResponse | null>(null);
@@ -23,19 +23,24 @@ export default function Exercise2() {
 
   return (
     <main>
-      <h1>Exercise 2</h1>
-      
+      <h1>Fixed Range</h1>
       {loading ? (
         <p>Loading fixed values...</p>
       ) : (
         <>
-          <p>Available values: {data?.values.join(", ")}</p>
-          <Range isFixed={true} />
+          <p>Fixed Values Selection (Currency Snapping)</p>
+          {data && (
+            <Range
+              type="fixed"
+              options={data.values}
+              min={data.values[0]}
+              max={data.values[data.values.length - 1]}
+            />
+          )}
         </>
       )}
-      
       <div style={{ marginTop: "2rem" }}>
-        <Link href="/">Back to Home</Link>
+        <Link href="/">Back to Examples</Link>
       </div>
     </main>
   );
