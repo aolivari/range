@@ -34,7 +34,7 @@ export default function Exercise2() {
         <p>Loading fixed values...</p>
       ) : (
         <>
-          <p>Fixed Values Selection (Currency Snapping)</p>
+          <p>Fixed Values Selection</p>
           <div
             style={{
               maxWidth: "500px",
