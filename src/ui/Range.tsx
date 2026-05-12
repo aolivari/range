@@ -73,9 +73,9 @@ const Range: React.FC<RangeProps> = ({
       if (!isDragging) return;
       const newValue = getValueFromPosition(e.clientX);
       if (isDragging === "min") {
-        if (newValue < maxVal) setMinVal(newValue);
+        setMinVal(Math.min(newValue, maxVal));
       } else {
-        if (newValue > minVal) setMaxVal(newValue);
+        setMaxVal(Math.max(newValue, minVal));
       }
     };
     const handleMouseUp = () => setIsDragging(null);
