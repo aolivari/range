@@ -3,6 +3,18 @@ import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import Range from "./Range";
 
+const TestRange: React.FC<any> = (props) => {
+  const [selection, setSelection] = React.useState({ min: props.min || 0, max: props.max || 100 });
+  return (
+    <div>
+      <Range {...props} onChange={(min, max) => setSelection({ min, max })} />
+      <div data-testid="selection-result">
+        {selection.min.toFixed(2)}€ - {selection.max.toFixed(2)}€
+      </div>
+    </div>
+  );
+};
+
 describe("Range Component", () => {
   beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({
@@ -19,15 +31,16 @@ describe("Range Component", () => {
   });
 
   test("renders correctly in normal mode with decimals", () => {
-    render(<Range type="normal" min={10} max={50} />);
+    render(<TestRange type="normal" min={10} max={50} />);
     const minInput = screen.getByTestId("min-input") as HTMLInputElement;
     const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
     expect(minInput.value).toBe("10.00");
     expect(maxInput.value).toBe("50.00");
   });
 
+
   test("clamps values to absolute maximum", () => {
-    render(<Range type="normal" min={0} max={100} />);
+    render(<TestRange type="normal" min={0} max={100} />);
     const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
     fireEvent.change(maxInput, { target: { value: "150" } });
     fireEvent.blur(maxInput);
@@ -36,7 +49,7 @@ describe("Range Component", () => {
 
   test("snaps to closest value in fixed mode", async () => {
     const options = [1.99, 10.99, 50.00];
-    render(<Range type="fixed" options={options} min={1.99} max={50.00} />);
+    render(<TestRange type="fixed" options={options} min={1.99} max={50.00} />);
     
     const minHandle = screen.getByTestId("min-handle");
     const result = screen.getByTestId("selection-result");
@@ -53,7 +66,7 @@ describe("Range Component", () => {
   });
 
   test("updates progress bar styles based on selection", () => {
-    render(<Range type="normal" min={0} max={100} />);
+    render(<TestRange type="normal" min={0} max={100} />);
     const minInput = screen.getByTestId("min-input") as HTMLInputElement;
     const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
     const progressBar = screen.getByTestId("progress-bar");
@@ -71,7 +84,7 @@ describe("Range Component", () => {
   });
 
   test("prevents handles from crossing during drag", async () => {
-    render(<Range type="normal" min={0} max={100} />);
+    render(<TestRange type="normal" min={0} max={100} />);
     const minHandle = screen.getByTestId("min-handle");
     const result = screen.getByTestId("selection-result");
 
@@ -86,7 +99,7 @@ describe("Range Component", () => {
   });
 
   test("prevents max handle from crossing min handle during drag", async () => {
-    render(<Range type="normal" min={0} max={100} />);
+    render(<TestRange type="normal" min={0} max={100} />);
     const maxHandle = screen.getByTestId("max-handle");
     const result = screen.getByTestId("selection-result");
 
@@ -102,7 +115,7 @@ describe("Range Component", () => {
 
   test("prevents overlapping in fixed mode", async () => {
     const options = [1.99, 10.99, 50.00];
-    render(<Range type="fixed" options={options} min={1.99} max={10.99} />);
+    render(<TestRange type="fixed" options={options} min={1.99} max={10.99} />);
     
     const maxHandle = screen.getByTestId("max-handle");
     const result = screen.getByTestId("selection-result");

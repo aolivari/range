@@ -9,10 +9,13 @@ export default function Exercise2() {
   const [data, setData] = useState<FixedRangeResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [selection, setSelection] = useState({ min: 0, max: 0 });
+
   useEffect(() => {
     getFixedRange()
       .then((res) => {
         setData(res);
+        setSelection({ min: res.values[0], max: res.values[res.values.length - 1] });
         setLoading(false);
       })
       .catch((err) => {
@@ -22,23 +25,30 @@ export default function Exercise2() {
   }, []);
 
   return (
-    <main>
+    <main style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto" }}>
       <h1>Fixed Range</h1>
       {loading ? (
         <p>Loading fixed values...</p>
       ) : (
         <>
           <p>Fixed Values Selection (Currency Snapping)</p>
-          {data && (
-            <Range
-              type="fixed"
-              options={data.values}
-              min={data.values[0]}
-              max={data.values[data.values.length - 1]}
-            />
-          )}
+          <div style={{ maxWidth: "500px", margin: "40px auto", textAlign: "center" }}>
+            {data && (
+              <Range
+                type="fixed"
+                options={data.values}
+                min={data.values[0]}
+                max={data.values[data.values.length - 1]}
+                onChange={(min, max) => setSelection({ min, max })}
+              />
+            )}
+            <div style={{ marginTop: "20px", color: "#666", fontSize: "14px" }} data-testid="selection-result">
+              Selection: {selection.min.toFixed(2)}€ - {selection.max.toFixed(2)}€
+            </div>
+          </div>
         </>
       )}
+
       <div style={{ marginTop: "2rem" }}>
         <Link href="/">Back to Examples</Link>
       </div>

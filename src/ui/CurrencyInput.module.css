@@ -1,0 +1,38 @@
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.inputWrapper:hover,
+.inputWrapper:focus-within {
+  border-bottom-color: #000;
+}
+
+.labelInput {
+  width: 55px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  padding: 2px 0;
+  outline: none;
+  text-align: right;
+}
+
+.labelInput::-webkit-outer-spin-button,
+.labelInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.currencySymbol {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
