@@ -4,7 +4,7 @@ export interface NormalRangeResponse {
 }
 
 export interface FixedRangeResponse {
-  values: number[];
+  rangeValues: number[];
 }
 
 export const getNormalRange = async (): Promise<NormalRangeResponse> => {

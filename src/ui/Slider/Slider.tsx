@@ -17,6 +17,10 @@ interface SliderProps {
   setIsDragging: (dragging: "min" | "max" | null) => void;
   /** Indicates which handle is currently being dragged, if any */
   isDragging: "min" | "max" | null;
+  /** Range type normal or fixed */
+  type?: "normal" | "fixed";
+  /** Available numeric options for fixed range mode */
+  options?: number[];
 }
 
 /**
@@ -40,7 +44,9 @@ const Slider: React.FC<SliderProps> = ({
   trackRef, 
   getPercent, 
   setIsDragging,
-  isDragging
+  isDragging,
+  type,
+  options
 }) => {
   return (
     <div className={`${styles.slider} ${isDragging ? styles.draggingMode : ""}`} ref={trackRef}>

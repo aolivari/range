@@ -9,17 +9,17 @@
 
 .inputWrapper:hover,
 .inputWrapper:focus-within {
-  border-bottom-color: #000;
+  border-bottom-color: var(--accent-color, #f59e0b);
 }
 
 .labelInput {
-  width: 55px;
+  width: 65px;
   border: none;
   background: transparent;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary, #f3f4f6);
   padding: 2px 0;
   outline: none;
   text-align: right;
@@ -34,5 +34,5 @@
 .currencySymbol {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary, #f3f4f6);
 }

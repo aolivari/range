@@ -8,8 +8,9 @@ interface UseRangeProps {
 }
 
 export const useRange = ({ type, min, max, options }: UseRangeProps) => {
-  const [absMin] = useState(min);
-  const [absMax] = useState(max);
+  const sortedOptions = type === "fixed" && options.length > 0 ? [...options].sort((a, b) => a - b) : [];
+  const absMin = type === "fixed" && sortedOptions.length > 0 ? sortedOptions[0] : min;
+  const absMax = type === "fixed" && sortedOptions.length > 0 ? sortedOptions[sortedOptions.length - 1] : max;
   
   const [minVal, setMinVal] = useState(type === "fixed" ? (options[0] ?? min) : min);
   const [maxVal, setMaxVal] = useState(type === "fixed" ? (options[options.length - 1] ?? max) : max);
@@ -27,6 +28,8 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
     }
   }, [minVal, maxVal, isDragging]);
 
+  const optionsKey = options.join(",");
+
   useEffect(() => {
     if (type === "fixed" && options.length > 0) {
       const sorted = [...options].sort((a, b) => a - b);
@@ -35,7 +38,7 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
       setMinInput(sorted[0].toFixed(2));
       setMaxInput(sorted[sorted.length - 1].toFixed(2));
     }
-  }, [type, options]);
+  }, [type, optionsKey]);
 
   const getPercent = useCallback(
     (value: number) => {

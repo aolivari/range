@@ -92,6 +92,8 @@ const Range: React.FC<RangeProps> = ({
         getPercent={getPercent}
         setIsDragging={setIsDragging}
         isDragging={isDragging}
+        type={type}
+        options={options}
       />
 
       {type === "normal" ? (

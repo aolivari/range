@@ -1,8 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
-  --bg-color: #fdf2f2; /* Rosa pálido premium */
-  --text-color: #333;
+  --bg-color: #f9fafb; /* Light, clean background */
+  --card-bg: #ffffff;  /* Solid white cards */
+  --card-border: #e5e7eb; /* Soft gray border */
+  --text-primary: #111827; /* Dark slate text */
+  --text-secondary: #4b5563; /* Medium gray subtext */
+  --accent-color: #d97706; /* Amber accent */
+  --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --accent-glow: rgba(217, 119, 6, 0.08);
+  --code-bg: #0f172a; /* Keep code block dark for readability */
 }
 
 * {
@@ -12,35 +19,21 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-color);
-  color: var(--text-color);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 a {
-  color: #444;
-  text-decoration: underline;
-  transition: color 0.2s;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 a:hover {
-  color: #8B4513; /* Terracota suave */
-}
-
-main {
-  flex: 1;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  font-weight: 700;
-  color: #4B2C20; /* Marrón chocolate premium */
+  color: var(--accent-color);
 }

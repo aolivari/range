@@ -16,8 +16,8 @@ export default function Exercise2() {
       .then((res) => {
         setData(res);
         setSelection({
-          min: res.values[0],
-          max: res.values[res.values.length - 1],
+          min: res.rangeValues[0],
+          max: res.rangeValues[res.rangeValues.length - 1],
         });
         setLoading(false);
       })
@@ -45,9 +45,9 @@ export default function Exercise2() {
             {data && (
               <Range
                 type="fixed"
-                options={data.values}
-                min={data.values[0]}
-                max={data.values[data.values.length - 1]}
+                options={data.rangeValues}
+                min={data.rangeValues[0]}
+                max={data.rangeValues[data.rangeValues.length - 1]}
                 onChange={(min, max) => setSelection({ min, max })}
               />
             )}
