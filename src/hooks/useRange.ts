@@ -147,6 +147,62 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
     else setMaxInput(maxVal.toFixed(2));
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, bound: "min" | "max") => {
+    let newValue = bound === "min" ? minVal : maxVal;
+    
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+      e.preventDefault();
+      if (type === "fixed") {
+        const currentIndex = options.indexOf(newValue);
+        if (currentIndex > 0) {
+          newValue = options[currentIndex - 1];
+        }
+      } else {
+        newValue = Math.max(absMin, newValue - 1);
+      }
+    } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (type === "fixed") {
+        const currentIndex = options.indexOf(newValue);
+        if (currentIndex < options.length - 1) {
+          newValue = options[currentIndex + 1];
+        }
+      } else {
+        newValue = Math.min(absMax, newValue + 1);
+      }
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      newValue = type === "fixed" ? options[0] : absMin;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      newValue = type === "fixed" ? options[options.length - 1] : absMax;
+    } else {
+      return;
+    }
+
+    if (bound === "min") {
+      if (type === "fixed") {
+        const possibleOptions = options.filter(opt => opt < maxVal);
+        if (possibleOptions.length > 0) {
+          const safeMax = Math.max(...possibleOptions);
+          setMinVal(Math.min(newValue, safeMax));
+        }
+      } else {
+        setMinVal(Math.min(newValue, maxVal - 0.01));
+      }
+    } else {
+      if (type === "fixed") {
+        const possibleOptions = options.filter(opt => opt > minVal);
+        if (possibleOptions.length > 0) {
+          const safeMin = Math.min(...possibleOptions);
+          setMaxVal(Math.max(newValue, safeMin));
+        }
+      } else {
+        setMaxVal(Math.max(newValue, minVal + 0.01));
+      }
+    }
+  };
+
   return {
     minVal,
     maxVal,
@@ -157,6 +213,9 @@ export const useRange = ({ type, min, max, options }: UseRangeProps) => {
     trackRef,
     getPercent,
     handleInputChange,
-    handleInputBlur
+    handleInputBlur,
+    absMin,
+    absMax,
+    handleKeyDown
   };
 };

@@ -21,6 +21,12 @@ interface SliderProps {
   type?: "normal" | "fixed";
   /** Available numeric options for fixed range mode */
   options?: number[];
+  /** Absolute minimum boundary */
+  absMin?: number;
+  /** Absolute maximum boundary */
+  absMax?: number;
+  /** Callback for keydown events */
+  onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>, bound: "min" | "max") => void;
 }
 
 /**
@@ -46,7 +52,10 @@ const Slider: React.FC<SliderProps> = ({
   setIsDragging,
   isDragging,
   type,
-  options
+  options,
+  absMin = 0,
+  absMax = 100,
+  onKeyDown
 }) => {
   return (
     <div className={`${styles.slider} ${isDragging ? styles.draggingMode : ""}`} ref={trackRef}>
@@ -63,6 +72,13 @@ const Slider: React.FC<SliderProps> = ({
         style={{ left: `${getPercent(minVal)}%` }} 
         onMouseDown={() => setIsDragging("min")}
         onTouchStart={() => setIsDragging("min")}
+        onKeyDown={(e) => onKeyDown && onKeyDown(e, "min")}
+        tabIndex={0}
+        role="slider"
+        aria-label="Minimum range value"
+        aria-valuemin={absMin}
+        aria-valuemax={maxVal}
+        aria-valuenow={minVal}
         data-testid="min-handle"
       />
       <div 
@@ -70,6 +86,13 @@ const Slider: React.FC<SliderProps> = ({
         style={{ left: `${getPercent(maxVal)}%` }} 
         onMouseDown={() => setIsDragging("max")}
         onTouchStart={() => setIsDragging("max")}
+        onKeyDown={(e) => onKeyDown && onKeyDown(e, "max")}
+        tabIndex={0}
+        role="slider"
+        aria-label="Maximum range value"
+        aria-valuemin={minVal}
+        aria-valuemax={absMax}
+        aria-valuenow={maxVal}
         data-testid="max-handle"
       />
     </div>

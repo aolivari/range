@@ -58,7 +58,10 @@ const Range: React.FC<RangeProps> = ({
     trackRef,
     getPercent,
     handleInputChange,
-    handleInputBlur
+    handleInputBlur,
+    absMin,
+    absMax,
+    handleKeyDown
   } = useRange({ type, min, max, options });
 
   const onChangeRef = React.useRef(onChange);
@@ -94,6 +97,9 @@ const Range: React.FC<RangeProps> = ({
         isDragging={isDragging}
         type={type}
         options={options}
+        absMin={absMin}
+        absMax={absMax}
+        onKeyDown={handleKeyDown}
       />
 
       {type === "normal" ? (
